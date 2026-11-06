@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Interactive browser demonstration of a C++ OOP Supermarket Billing System." />
+  <title>Supermarket Billing System | C++ OOP Project Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="eyebrow">C++ OOP project · Interactive browser demo</div>
+        <h1>Supermarket Billing System</h1>
+        <p>Add products, track inventory, and create customer bills — based on the original C++ console program.</p>
+      </div>
+      <span class="pill">Runs in your browser</span>
+    </header>
+
+    <nav class="tabs" aria-label="Main menu">
+      <button type="button" class="active" data-view="add">1. Add Item</button>
+      <button type="button" data-view="bill">2. Print Bill</button>
+      <button type="button" data-view="inventory">View Stock</button>
+    </nav>
+
+    <div class="grid">
+      <section id="addPanel" class="panel">
+        <h2>Add Item</h2>
+        <p class="hint">This mirrors the Add Item option in the C++ program. Item names are single words, as in
+          <code>cin &gt;&gt; item</code>.</p>
+        <form id="addForm">
+          <div class="row">
+            <div class="field"><label for="itemName">Item name</label><input id="itemName" required placeholder="Rice"
+                pattern="[^\s:]+" title="Use one word without colons" maxlength="40" /></div>
+            <div class="field"><label for="itemRate">Rate (₹)</label><input id="itemRate" required type="number" min="0"
+                max="100000000" step="1" placeholder="80" /></div>
+            <div class="field"><label for="itemQuantity">Quantity</label><input id="itemQuantity" required type="number"
+                min="1" max="100000000" step="1" placeholder="10" /></div>
+          </div>
+          <button class="primary" type="submit">Add to Stock</button>
+        </form>
+        <div class="notice" id="addMessage" role="status">Enter item details to get started.</div>
+      </section>
+
+      <section id="billPanel" class="panel" hidden>
+        <h2>Print Bill</h2>
+        <p class="hint">Choose an existing item and quantity. Its stock decreases when added to the bill.</p>
+        <form id="billForm">
+          <div class="row">
+            <div class="field"><label for="purchaseItem">Enter item</label><input id="purchaseItem" list="itemsList"
+                required placeholder="Rice" /><datalist id="itemsList"></datalist></div>
+            <div class="field"><label for="purchaseQuantity">Quantity</label><input id="purchaseQuantity" required
+                type="number" min="1" max="100000000" step="1" value="1" /></div>
+          </div>
+          <button class="primary" type="submit">Add to Bill</button>
+        </form>
+        <div class="notice" id="billMessage" role="status">Add items to start a bill.</div>
+      </section>
+
+      <section id="inventoryPanel" class="panel" hidden>
+        <h2>Current Inventory</h2>
+        <p class="hint">Stock is saved locally in this browser instead of the C++ program's Bill.txt file.</p>
+        <div id="inventoryTable"></div>
+        <button id="resetInventory" class="danger" type="button" style="margin-top:14px">Clear All Inventory</button>
+      </section>
+
+      <aside class="panel" id="receiptPanel">
+        <h2>Customer Bill</h2>
+        <div id="receiptItems" class="empty">No items added to this bill yet.</div>
+        <div class="total"><span>Total Bill</span><span id="totalAmount">₹0</span></div>
+        <div class="row" style="margin-top:18px">
+          <button type="button" id="printBill">Print / Save PDF</button>
+          <button type="button" id="clearBill">Close Session</button>
+        </div>
+        <p class="hint" id="receiptStatus">Thanks for shopping!</p>
+      </aside>
+    </div>
+    <div class="footer">This is a JavaScript recreation of the behavior of the original C++ project. The C++ Code is not executed by GitHub Pages. This demo stores inventory only in the current browser; it is not
+      shared across visitors.</div>
+  </div>
+  <script src="function.js"></script>
+</body>
+
+</html>

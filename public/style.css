@@ -1,0 +1,289 @@
+:root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #142036;
+      --panel2: #1c2c45;
+      --line: #33445e;
+      --text: #edf4ff;
+      --muted: #aab9cd;
+      --accent: #70c6e9;
+      --good: #72ddb4;
+      --bad: #ff9f9f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 10% 0%, #1b3652 0%, var(--bg) 55%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1050px;
+      margin: auto;
+      padding: 36px 18px 70px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    h1 {
+      margin: 6px 0 6px;
+      font-size: clamp(26px, 4vw, 42px);
+      letter-spacing: -.035em;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 0 0 14px;
+    }
+
+    p {
+      margin: 7px 0;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 50px;
+      color: var(--muted);
+      padding: 7px 13px;
+      font-size: 13px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 15px;
+      background: var(--panel2);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button.active,
+    button.primary {
+      background: var(--accent);
+      color: #072035;
+      border-color: var(--accent);
+    }
+
+    button.danger {
+      border-color: #8a4a55;
+      color: #ffb6c2;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+      gap: 20px;
+    }
+
+    .panel {
+      background: rgba(20, 32, 54, .94);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 23px;
+      min-width: 0;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .field {
+      flex: 1 1 140px;
+      min-width: 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      background: #0c182b;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font: inherit;
+    }
+
+    form button {
+      margin-top: 18px;
+    }
+
+    .notice {
+      border-radius: 10px;
+      padding: 11px 14px;
+      background: #102c35;
+      border: 1px solid #315d64;
+      color: #b5f6e2;
+      margin: 15px 0 0;
+      min-height: 45px;
+    }
+
+    .notice.error {
+      background: #341e2a;
+      border-color: #704353;
+      color: #ffc3cc;
+    }
+
+    .tablewrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 11px 9px;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    td:last-child,
+    th:last-child {
+      text-align: right;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      margin-top: 14px;
+      padding-top: 15px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media(max-width:760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wrap {
+        padding-top: 24px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      header,
+      .tabs,
+      #inventoryPanel,
+      #addPanel,
+      #billForm,
+      #clearBill,
+      #printBill,
+      .footer,
+      .notice {
+        display: none !important;
+      }
+
+      .grid {
+        display: block;
+      }
+
+      .panel {
+        background: white;
+        color: black;
+        border: 0;
+        padding: 0;
+      }
+
+      #billPanel {
+        display: block !important;
+      }
+
+      th,
+      td,
+      .hint {
+        color: black;
+      }
+    }
