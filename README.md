@@ -2,230 +2,343 @@
 
 # 🛒 Smart Supermarket Billing System
 
-### C++ Object-Oriented Programming Project with an Interactive Web Demo
+**A C++ inventory and billing project with an interactive WebAssembly terminal demo.**
 
-A menu-driven supermarket inventory and billing application developed in **C++**, with a separate **HTML, CSS, and JavaScript** browser demo to showcase its functionality.
+[![C++](https://img.shields.io/badge/C%2B%2B-OOP%20%26%20File%20Handling-00599C?logo=cplusplus&logoColor=white)](main.cpp)
+[![WebAssembly](https://img.shields.io/badge/WebAssembly-Browser%20Demo-654FF0?logo=webassembly&logoColor=white)](source/main-web.cpp)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222?logo=github&logoColor=white)](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/)
 
-[![C++](https://img.shields.io/badge/C%2B%2B-Console%20Application-00599C?logo=cplusplus&logoColor=white)](main.cpp)
-[![OOP](https://img.shields.io/badge/Concepts-OOP%20%26%20File%20Handling-blue)](main.cpp)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success)](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/)
-
-**[🌐 Try Browser Demo](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/)** · **[💻 View C++ Source](main.cpp)**
+[**Try the Live Demo**](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/) · [Windows C++ Source](main.cpp) · [Browser C++ Source](source/main-web.cpp)
 
 </div>
 
----
+## Overview
 
-## 📌 Overview
+Smart Supermarket Billing System is a menu-driven C++ application for adding products, recording available stock, and calculating customer bills. Inventory records are read from and written to `Bill.txt` using C++ file streams.
 
-**Smart Supermarket Billing System** is a console-based application built to practice fundamental **Object-Oriented Programming (OOP)** and **file handling in C++**. It allows a supermarket operator to add products, generate bills for customers, calculate purchase totals, and update available stock as items are sold.
+The repository contains two ways to run the project:
 
-The original C++ program stores inventory records in a local `Bill.txt` file. A separate browser-based demonstration is provided so visitors can explore a similar workflow without installing a compiler.
+- **Windows console application:** compile and run the original [`main.cpp`](main.cpp).
+- **Browser terminal demo:** run the adapted [`source/main-web.cpp`](source/main-web.cpp), compiled to WebAssembly with Emscripten.
 
-> **Note:** The browser demo is a JavaScript recreation of the C++ application's behavior. GitHub Pages hosts the web files; it does **not** compile or execute `main.cpp`.
+**The browser demo executes compiled C++ billing logic.** Its HTML and JavaScript provide terminal output, an input field, and runtime loading. Visitors do not need a compiler, installation, account, or backend server to use the published demo.
 
-## ✨ Features
+## Contents
 
-### Original C++ application
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Try the Browser Demo](#try-the-browser-demo)
+- [Run the Browser Demo Locally](#run-the-browser-demo-locally)
+- [Run the Windows Console Application](#run-the-windows-console-application)
+- [Rebuild the Browser Demo](#rebuild-the-browser-demo)
+- [GitHub Pages Deployment](#github-pages-deployment)
+- [C++ Design and Browser Integration](#c-design-and-browser-integration)
+- [Storage and Version Differences](#storage-and-version-differences)
+- [Current Limitations](#current-limitations)
+- [Troubleshooting](#troubleshooting)
 
-- **Add products:** Enter an item name, unit rate, and available quantity.
-- **Store inventory:** Append product records to `Bill.txt` using C++ file streams.
-- **Create customer bills:** Select products and quantities to purchase.
-- **Calculate totals:** Compute each purchased item's amount (`rate × quantity`) and accumulate the bill total.
-- **Update stock:** Reduce stored quantities after a valid purchase.
-- **Check availability:** Display a message when an item does not exist or sufficient stock is unavailable.
-- **Menu-driven interaction:** Navigate between adding products, billing, and exiting the program.
+## Features
 
-### Interactive browser demo
+### Inventory and billing
 
-- Add products using a form.
-- View available inventory in a table.
-- Add products to a customer bill and see the running total.
-- Update stock quantities when products are billed.
-- Print a receipt or save it as a PDF using the browser's print dialog.
-- Clear a billing session or reset inventory.
-- Retain inventory in the current browser using `localStorage` (no server or database required).
+- Add products with a name, whole-number unit rate, and stock quantity.
+- Append inventory records to `Bill.txt`.
+- Find products by name when creating a bill.
+- Calculate each purchase amount as **unit rate × quantity**.
+- Deduct purchased quantities from available stock.
+- Accumulate the total across a billing session.
+- Report unavailable items or insufficient stock.
+- Return to the main menu or exit the program.
 
-## 🧰 Tech Stack
+### Browser terminal
 
-| Component | Technology | Purpose |
-| --- | --- | --- |
-| Core application | C++ | Console-based billing and inventory logic |
-| Programming concepts | OOP | Classes, objects, encapsulation, constructors, getters, and setters |
-| Inventory persistence (C++) | `<fstream>` / text file | Read and update stock in `Bill.txt` |
-| Record parsing (C++) | `<sstream>` | Parse stored product details |
-| Web demo UI | HTML5 and CSS3 | Browser interface and responsive layout |
-| Web demo behavior | JavaScript | Recreate inventory and billing interactions |
-| Web demo persistence | Browser `localStorage` | Store inventory on the visitor's device |
-| Web hosting | GitHub Pages and GitHub Actions | Publish the static demo |
+- Type answers into an input field and submit with **Enter** or **Send**.
+- See C++ prompts and output in a scrollable terminal.
+- Clear displayed output without clearing inventory.
+- Restart the demo with a fresh inventory.
+- Follow the expandable example included on the page.
+- Use a layout that adapts to desktop and mobile screens.
 
-## 🧠 OOP Concepts Demonstrated
+The browser source also retries failed numeric extraction, preserves stock records after an insufficient-stock request, and skips unparseable inventory lines during billing.
 
-The original program defines a `Bill` class to represent product details.
+## Technology Stack
 
-| OOP concept | Implementation |
+| Component | Technology |
 | --- | --- |
-| **Class and object** | `Bill` defines product data and methods; `main()` creates a `Bill` object. |
-| **Encapsulation** | `Item`, `Rate`, and `Quantity` are private data members. |
-| **Constructor** | `Bill()` initializes the product name, rate, and quantity. |
-| **Setters** | `setItem()`, `setRate()`, and `setQuant()` assign product details. |
-| **Getters** | `getItem()`, `getRate()`, and `getQuant()` read product details. |
+| Product model and billing logic | C++ |
+| Inventory storage | C++ file streams and text records |
+| Record parsing | `std::stringstream` |
+| Original console interface | Windows console, `windows.h`, `Sleep()`, `system("cls")` |
+| Browser compilation | Emscripten and WebAssembly |
+| Asynchronous browser input | Asyncify and `EM_ASYNC_JS` |
+| Terminal bridge | Custom `std::streambuf` classes |
+| Browser interface | HTML, inline CSS, and JavaScript |
+| Static hosting | GitHub Pages and GitHub Actions |
 
-The project focuses on these core OOP fundamentals. **Inheritance and polymorphism are not implemented** in the current C++ code.
+## Project Structure
 
-## 📁 Project Structure
+| Path | Purpose |
+| --- | --- |
+| [`main.cpp`](main.cpp) | Original Windows console application |
+| [`main.exe`](main.exe) | Windows executable included in the repository |
+| [`source/main-web.cpp`](source/main-web.cpp) | C++ application adapted for browser execution |
+| [`source/browser_terminal.h`](source/browser_terminal.h) | Browser input/output bridge, yielding delays, and input helper |
+| [`public/index.html`](public/index.html) | Terminal page with embedded styling and UI logic |
+| [`public/supermarket.js`](public/supermarket.js) | Generated Emscripten JavaScript runtime |
+| [`public/supermarket.wasm`](public/supermarket.wasm) | Compiled WebAssembly module |
+| [`build.bat`](build.bat) | Windows command script for rebuilding the browser runtime |
+| [`.github/workflows/static.yml`](.github/workflows/static.yml) | GitHub Pages deployment workflow |
+| [`.gitignore`](.gitignore) | Ignore rules for local inventory and selected build outputs |
 
-```text
-Smart-Supermarket-Billing-System/
-├── .github/
-│   └── workflows/       # GitHub Pages deployment workflow
-├── public/
-│   ├── index.html       # Browser demo page
-│   ├── style.css        # Demo styling
-│   └── function.js      # Browser inventory and billing logic
-├── .gitignore
-├── main.cpp             # Original C++ console application
-├── main.exe             # Windows executable (included in repository)
-└── README.md            # Project documentation
+`Bill.txt` and the temporary `Bill Temp.txt` are runtime inventory files. They are not required in the repository for the demo to start.
+
+## Try the Browser Demo
+
+**[Open the interactive demo](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/)**
+
+1. Wait for the main menu to appear.
+2. Enter one answer at a time in the input field.
+3. Press **Enter** or click **Send** after each answer.
+4. Use single-word product names and match their capitalization when billing.
+
+### Main menu
+
+| Choice | Action |
+| --- | --- |
+| `1` | Open the Add Item menu |
+| `2` | Open the Print Bill menu |
+| `3` | Exit the program |
+
+Inside **Add Item**, choose `1` to add a product or `2` to return to the main menu. Inside **Print Bill**, choose `1` to add a purchase or `2` to close the session and display the total.
+
+### Example: a bill totaling 295
+
+Enter the following answers **individually**, not as a single pasted line:
+
+| Step | Answers to enter in order |
+| --- | --- |
+| Add Rice: rate 80, stock 10 | `1` → `1` → `Rice` → `80` → `10` |
+| Add Sugar: rate 45, stock 8 | `1` → `Sugar` → `45` → `8` |
+| Return to the main menu | `2` |
+| Open billing | `2` |
+| Buy 2 Rice | `1` → `Rice` → `2` |
+| Buy 3 Sugar | `1` → `Sugar` → `3` |
+| Close the billing session | `2` |
+
+| Item | Rate | Purchased quantity | Amount | Remaining stock |
+| --- | ---: | ---: | ---: | ---: |
+| Rice | 80 | 2 | 160 | 8 |
+| Sugar | 45 | 3 | 135 | 5 |
+| **Total** | | | **295** | |
+
+Prices are integer values; the C++ terminal does not enforce a currency.
+
+**Clear screen** only removes displayed text. **Restart demo** reloads the page and resets the browser inventory. After choosing Exit, use Restart demo to begin again.
+
+## Run the Browser Demo Locally
+
+The compiled `.js` and `.wasm` files are committed, so rebuilding is unnecessary just to try the demo.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/vasanth-kumar-009/Smart-Supermarket-Billing-System.git
+cd Smart-Supermarket-Billing-System
 ```
 
-When the C++ application is run and an item is added, it creates or updates a local `Bill.txt` inventory file in its working directory.
+Alternatively, download and extract the repository ZIP.
 
-## ⚙️ Run the Original C++ Project
+### 2. Start a local web server
 
-### Prerequisites
+**Option A — VS Code Live Server**
 
-- **Windows** (the original source uses `windows.h`, `Sleep()`, and `system("cls")`).
-- A C++ compiler such as **MinGW-w64 g++**, or a compatible C++ IDE/toolchain.
+1. Open the repository folder in VS Code.
+2. Install the Live Server extension.
+3. Right-click `public/index.html` and select **Open with Live Server**.
 
-### Steps
+**Option B — Python static server**
 
-1. Clone the repository:
+If Python is installed, run this from the repository root:
 
-   ```bash
-   git clone https://github.com/vasanth-kumar-009/Smart-Supermarket-Billing-System.git
-   ```
+```bash
+python -m http.server 8000 --bind 127.0.0.1 --directory public
+```
 
-2. Open the project directory:
+Open **http://localhost:8000**. On systems where needed, use `py` or `python3` instead of `python`.
 
-   ```bash
-   cd Smart-Supermarket-Billing-System
-   ```
+Python only serves the static files in this optional method; the billing program executes in the browser. Stop the server with `Ctrl+C`.
 
-3. Compile the program in a Windows terminal with `g++` available:
+Do not open the page using `file://`. The runtime needs to load `supermarket.wasm` through a web server.
 
-   ```bash
-   g++ main.cpp -o supermarket.exe
-   ```
+## Run the Windows Console Application
 
-4. Run the executable:
+### Requirements
 
-   ```powershell
-   .\supermarket.exe
-   ```
+- Windows.
+- A compatible C++ compiler, such as MinGW-w64 `g++`, available in your terminal.
 
-The program displays a menu with options to **Add Item**, **Print Bill**, or **Exit**.
+From the repository root, compile:
 
-> The original C++ source is Windows-specific and is not directly runnable on GitHub Pages or a typical Linux-based online compiler without adjustments.
+```powershell
+g++ main.cpp -std=c++17 -o supermarket.exe
+```
 
-## 🖥️ How to Use the Application
+Then run:
 
-1. Select **Add Item** from the main menu.
-2. Enter the product name, price per unit, and stock quantity. Repeat for more products.
-3. Return to the main menu and choose **Print Bill**.
-4. Enter a product name and the quantity the customer wants to purchase.
-5. For available stock, the program calculates the amount and deducts the purchased quantity.
-6. Continue adding items, then select **Close Session** to view the final bill total.
+```powershell
+.\supermarket.exe
+```
 
-### Example
+The program creates `Bill.txt` in the current working directory when products are added. Run it from the same folder each time to reuse that inventory.
 
-Suppose the inventory contains:
+The repository also includes `main.exe`; compiling from source is the clearest way to ensure the executable matches the source you are reviewing.
 
-| Item | Unit rate | Initial stock |
-| --- | ---: | ---: |
-| Rice | ₹80 | 10 |
-| Sugar | ₹45 | 8 |
+`main.cpp` uses Windows-specific APIs and does not compile unchanged with a standard Linux or macOS toolchain.
 
-A customer purchases **2 Rice** and **3 Sugar**:
+## Rebuild the Browser Demo
 
-| Item | Rate | Quantity | Amount |
-| --- | ---: | ---: | ---: |
-| Rice | ₹80 | 2 | ₹160 |
-| Sugar | ₹45 | 3 | ₹135 |
-| **Total** | | | **₹295** |
+Rebuild when you change `source/main-web.cpp` or `source/browser_terminal.h`. Editing the original `main.cpp` alone does **not** update the browser version.
 
-After the purchase, the stock becomes **8 Rice** and **5 Sugar**.
+### 1. Install and activate Emscripten
 
-*This is an illustrative example of the billing workflow, not a screenshot of program output.*
+Use **Windows Command Prompt (`cmd.exe`)** for these batch commands. Git and Python must be available for SDK installation.
 
-## 🌐 Interactive Browser Demo
+```bat
+cd /d "%USERPROFILE%"
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+emsdk.bat install latest
+emsdk.bat activate latest
+emsdk_env.bat
+em++ --version
+```
 
-**[Open the Live Demo](https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/)**
+If `emsdk` is already installed, reuse that installation instead of cloning into the same folder again.
 
-The demo is served from the [`public/`](public/) folder and provides a convenient interface for exploring the project's features.
+Official instructions: [Emscripten download and installation](https://emscripten.org/docs/getting_started/downloads.html).
 
-**Try it:** Add a product → Open **Print Bill** → Select an item and quantity → Add it to the bill → Print/save the receipt.
+### 2. Build from the project folder
 
-### Differences Between the C++ Program and the Browser Demo
+In the **same Command Prompt**, change to your repository. Replace this example path with your actual location:
 
-| Aspect | Original C++ program | Browser demo |
+```bat
+cd /d "D:\projects\Smart-Supermarket-Billing-System"
+build.bat
+```
+
+The script runs:
+
+```bat
+em++ source\main-web.cpp -std=c++17 -O2 -sASYNCIFY -sEXIT_RUNTIME=1 -sENVIRONMENT=web -sEXPORTED_RUNTIME_METHODS=stringToUTF8,lengthBytesUTF8,UTF8ToString -o public\supermarket.js
+```
+
+It generates or replaces:
+
+- `public/supermarket.js`
+- `public/supermarket.wasm`
+
+Refresh the local demo to test the new build. Commit **both generated files and your source changes** before publishing.
+
+When opening a new Command Prompt later, activate the SDK again before building:
+
+```bat
+call "%USERPROFILE%\emsdk\emsdk_env.bat"
+```
+
+## GitHub Pages Deployment
+
+The workflow in [`.github/workflows/static.yml`](.github/workflows/static.yml):
+
+1. Runs on pushes to `main` or a manual workflow dispatch.
+2. Checks out the repository and configures GitHub Pages.
+3. Uploads the contents of `public/`.
+4. Deploys that artifact to GitHub Pages.
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source. After pushing changes, check the **Actions** tab for the deployment result.
+
+The workflow publishes the checked-in files; **it does not compile C++**. Run `build.bat` locally after changing the browser C++ source, then commit the updated `.js` and `.wasm` files.
+
+Published address:
+
+**https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/**
+
+## C++ Design and Browser Integration
+
+### Product model
+
+The `Bill` class stores three private fields:
+
+- `Item`: product name.
+- `Rate`: unit price.
+- `Quantity`: stock quantity.
+
+Its constructor initializes these fields, while getters and setters provide access. `addItem()` appends inventory records; `printBill()` scans those records, calculates purchase amounts, and writes updated stock through a temporary file.
+
+### Concepts demonstrated
+
+| Concept | Where it appears |
+| --- | --- |
+| Classes and objects | `Bill` and the object created in `main()` |
+| Encapsulation | Private product fields with public getters/setters |
+| Constructors | Initial values set by `Bill()` |
+| File handling | `ifstream`, `ofstream`, append mode, file replacement |
+| String parsing | `stringstream` reads product records |
+| Control flow | Menu loops and conditional billing operations |
+| Inheritance and virtual overrides | Browser input/output adapters derive from `std::streambuf` |
+| Templates | `readValue<T>()` in the browser helper |
+
+### How browser input reaches C++
+
+Emscripten compiles `source/main-web.cpp` to WebAssembly. The terminal page loads the generated runtime and module. `BrowserInput` requests a line through JavaScript; Asyncify pauses C++ execution while the visitor types. Submitting the line resumes the C++ program. `BrowserOutput` forwards C++ output back to the page.
+
+See [Emscripten asynchronous code documentation](https://emscripten.org/docs/porting/asyncify.html) for the mechanism used by the input bridge.
+
+## Storage and Version Differences
+
+| Aspect | Windows application | Browser terminal |
 | --- | --- | --- |
-| Interface | Windows console | Web browser |
-| Application logic | C++ | JavaScript adaptation |
-| Inventory storage | Local `Bill.txt` | Browser `localStorage` |
-| Billing | Console output | On-page receipt with print/PDF option |
-| Installation | Windows C++ compiler/executable | None; open in a browser |
+| Entry source | `main.cpp` | `source/main-web.cpp` |
+| Execution | Native Windows executable | Compiled WebAssembly in the browser |
+| Inventory | `Bill.txt` on the local disk | `Bill.txt` in a temporary in-memory filesystem |
+| Persistence | Remains on disk between runs | Reset on page refresh or Restart demo |
+| Interface | Windows terminal | Webpage terminal and input field |
+| Delays | Original three-second pauses | Pauses capped at 150 milliseconds |
+| Screen clearing | `system("cls")` calls | Output history retained; manual Clear screen button |
+| Failed numeric extraction | No recovery helper | `readValue()` clears the failure and retries |
+| Insufficient stock | Original branch omits the matching record from the replacement file | Matching record is preserved |
+| Unparseable inventory lines | No extraction-result check | Line is retained and skipped for billing |
 
-**Privacy/storage note:** Browser inventory data stays in the visitor's own browser and is not shared with other users or synchronized with the C++ application's `Bill.txt` file. The current bill is held in page memory, so closing or refreshing the page can clear the active receipt.
+Each browser visitor has an independent temporary inventory. There is no shared database, server-side inventory, or synchronization with the Windows application's local file.
 
-## 🚀 GitHub Pages Deployment
+## Current Limitations
 
-The repository includes a GitHub Actions workflow for static-site deployment. For the workflow to publish the web demo correctly, its Pages artifact must point to the `public/` directory:
+This is an educational project demonstrating C++ and file handling.
 
-```yaml
-- name: Upload artifact
-  uses: actions/upload-pages-artifact@v3
-  with:
-    path: './public'
-```
+- Product names are single-word, case-sensitive tokens. Avoid spaces and the record delimiter `:`.
+- Rates, quantities, and totals use `int`; decimal prices and overflow checks are not implemented.
+- Numeric parsing recovery in the browser does not enforce business rules. Use nonnegative rates/stock and positive purchase quantities.
+- Duplicate names are appended as separate records. Billing processes every matching record, so use unique names for predictable results.
+- The browser inventory is not persisted across refreshes.
+- Stock is deducted as purchases are added, rather than after a separate checkout confirmation.
+- There is no authentication, tax/discount calculation, sales history, database, or receipt PDF export.
+- Browser fixes are in `source/main-web.cpp`; they have not automatically been applied to the original Windows `main.cpp`.
 
-In **Repository Settings → Pages**, select **GitHub Actions** as the deployment source. A successful deployment publishes the contents of `public/` at the live-demo URL above.
+## Troubleshooting
 
-## 🎯 Learning Outcomes
-
-This project provides practical experience with:
-
-- Designing a simple application using C++ classes and encapsulation.
-- Organizing data through constructors, getters, and setters.
-- Reading, writing, and updating records with file streams.
-- Parsing text records using string streams.
-- Implementing a menu-driven program and transaction-based billing logic.
-- Presenting a console project through a separate static browser demonstration.
-
-## 🔍 Current Scope and Limitations
-
-This is an educational project rather than a production-ready point-of-sale system. The current implementation has some constraints:
-
-- The C++ program is Windows-specific.
-- Product input in the console uses single-word names (`cin >> item`).
-- Inventory is stored in a plain text file, not a database.
-- Repeated product names are not consolidated automatically.
-- The C++ program does not include a dedicated stock-management screen or printable receipt export.
-- The browser demo is a separate implementation and does not run or modify the C++ source.
-
-Potential future improvements include improved input validation, unique product IDs, database support, sales-history reports, and broader platform compatibility.
-
-## 👨‍💻 Source Code & Demo
-
-- **GitHub Repository:** https://github.com/vasanth-kumar-009/Smart-Supermarket-Billing-System
-- **Original C++ Code:** [main.cpp](main.cpp)
-- **Web Demo Source:** [public/](public/)
-- **Live Browser Demo:** https://vasanth-kumar-009.github.io/Smart-Supermarket-Billing-System/
+| Problem | What to check |
+| --- | --- |
+| Demo does not load when opened directly | Use Live Server or another HTTP server instead of `file://`. |
+| Page reports missing build files | Keep `index.html`, `supermarket.js`, and `supermarket.wasm` together in `public/`. |
+| Old demo or build still appears | Use `Ctrl+F5` and confirm the latest Pages deployment succeeded. |
+| Cannot type immediately | Wait until the program requests input and enables the field. |
+| Program has exited | Click Restart demo to start a new session. |
+| Inventory disappeared | Refresh and Restart deliberately reset the browser filesystem. |
+| `em++` is not recognized | Run `emsdk_env.bat` in the same Command Prompt before building. |
+| `windows.h` is missing during compilation | Build `main.cpp` with a Windows toolchain; use `build.bat` for the browser source. |
+| C++ changes are absent from the live demo | Edit the correct source, rebuild, and commit both generated runtime files. |
+| An item is not found | Match its single-word name and capitalization exactly. |
 
 ---
 
-<div align="center">
-
-**Built as a hands-on C++ OOP and file-handling project.**
-
-</div>
+Repository maintained by [**vasanth-kumar-009**](https://github.com/vasanth-kumar-009).
