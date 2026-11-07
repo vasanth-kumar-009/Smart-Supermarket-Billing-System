@@ -1,95 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Interactive browser demonstration of a C++ OOP Supermarket Billing System." />
-  <title>Supermarket Billing System | C++ OOP Project Demo</title>
-  <link rel="stylesheet" href="style.css">
-  <a
-  href="https://github.com/vasanth-kumar-009/Smart-Supermarket-Billing-System"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="github-btn"
-  >
-  <span>⭐ View Source Code on GitHub</span>
-</a>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Supermarket — C++ Terminal Demo</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1020;color:#e2e8f0;font:16px system-ui,sans-serif;padding:30px 18px}main{max-width:960px;margin:auto}h1{font-size:clamp(22px,4vw,32px);margin-bottom:8px}p{color:#a8b6d1;line-height:1.6}a{color:#67e8f9}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0 12px}.badge{color:#5eead4;margin-right:auto}button,input{font:inherit;border-radius:8px;padding:11px 14px}button{cursor:pointer;background:#164e63;color:#ecfeff;border:1px solid #27768c}button:disabled{opacity:.5;cursor:wait}pre{white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;background:#050a12;color:#b4f4c4;border:1px solid #26344e;border-radius:12px;padding:20px;height:460px;overflow:auto;font:14px/1.65 Consolas,monospace}form{display:flex;gap:10px}input{flex:1;min-width:0;background:#111c30;border:1px solid #3d5279;color:white}input:focus{outline:2px solid #22d3ee}.hint{font-size:14px}details{margin:20px 0;padding:14px;background:#101a2d;border-radius:10px}li{line-height:1.8}
+</style>
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <div class="eyebrow">C++ OOP project · Interactive browser demo</div>
-        <h1>Supermarket Billing System</h1>
-        <p>Add products, track inventory, and create customer bills — based on the original C++ console program.</p>
-      </div>
-      <span class="pill">Runs in your browser</span>
-    </header>
-
-    <nav class="tabs" aria-label="Main menu">
-      <button type="button" class="active" data-view="add">1. Add Item</button>
-      <button type="button" data-view="bill">2. Print Bill</button>
-      <button type="button" data-view="inventory">View Stock</button>
-    </nav>
-
-    <div class="grid">
-      <section id="addPanel" class="panel">
-        <h2>Add Item</h2>
-        <p class="hint">This mirrors the Add Item option in the C++ program. Item names are single words, as in
-          <code>cin &gt;&gt; item</code>.</p>
-        <form id="addForm">
-          <div class="row">
-            <div class="field"><label for="itemName">Item name</label><input id="itemName" required placeholder="Rice"
-                pattern="[^\s:]+" title="Use one word without colons" maxlength="40" /></div>
-            <div class="field"><label for="itemRate">Rate (₹)</label><input id="itemRate" required type="number" min="0"
-                max="100000000" step="1" placeholder="80" /></div>
-            <div class="field"><label for="itemQuantity">Quantity</label><input id="itemQuantity" required type="number"
-                min="1" max="100000000" step="1" placeholder="10" /></div>
-          </div>
-          <button class="primary" type="submit">Add to Stock</button>
-        </form>
-        <div class="notice" id="addMessage" role="status">Enter item details to get started.</div>
-      </section>
-
-      <section id="billPanel" class="panel" hidden>
-        <h2>Print Bill</h2>
-        <p class="hint">Choose an existing item and quantity. Its stock decreases when added to the bill.</p>
-        <form id="billForm">
-          <div class="row">
-            <div class="field"><label for="purchaseItem">Enter item</label><input id="purchaseItem" list="itemsList"
-                required placeholder="Rice" /><datalist id="itemsList"></datalist></div>
-            <div class="field"><label for="purchaseQuantity">Quantity</label><input id="purchaseQuantity" required
-                type="number" min="1" max="100000000" step="1" value="1" /></div>
-          </div>
-          <button class="primary" type="submit">Add to Bill</button>
-        </form>
-        <div class="notice" id="billMessage" role="status">Add items to start a bill.</div>
-      </section>
-
-      <section id="inventoryPanel" class="panel" hidden>
-        <h2>Current Inventory</h2>
-        <p class="hint">Stock is saved locally in this browser instead of the C++ program's Bill.txt file.</p>
-        <div id="inventoryTable"></div>
-        <button id="resetInventory" class="danger" type="button" style="margin-top:14px">Clear All Inventory</button>
-      </section>
-
-      <aside class="panel" id="receiptPanel">
-        <h2>Customer Bill</h2>
-        <div id="receiptItems" class="empty">No items added to this bill yet.</div>
-        <div class="total"><span>Total Bill</span><span id="totalAmount">₹0</span></div>
-        <div class="row" style="margin-top:18px">
-          <button type="button" id="printBill">Print / Save PDF</button>
-          <button type="button" id="clearBill">Close Session</button>
-        </div>
-        <p class="hint" id="receiptStatus">Thanks for shopping!</p>
-      </aside>
-    </div>
-    <div class="footer">This is a JavaScript recreation of the behavior of the original C++ project. The C++ Code is not executed by GitHub Pages. This demo stores inventory only in the current browser; it is not
-      shared across visitors.</div>
-  </div>
-  <script src="function.js"></script>
+<main>
+<h1>Smart Supermarket Billing System</h1>
+<p>Run the C++ billing program in your browser. Enter one answer at a time, then press Enter.</p>
+<div class="toolbar"><span class="badge" id="status">Loading C++ program…</span><button id="clear" type="button">Clear screen</button><button id="restart" type="button">Restart demo</button></div>
+<pre id="terminal" role="log" aria-label="C++ program output"></pre>
+<form id="input-form"><input id="input" aria-label="Terminal input" placeholder="Wait for the program…" maxlength="200" autocomplete="off" disabled><button id="send" disabled>Send ↵</button></form>
+<p class="hint">Inventory is kept in this tab's temporary filesystem. Restarting or refreshing starts fresh.</p>
+<details><summary>Try an example</summary><ol><li>Choose 1 (Add Item), then 1 (Add). Enter Rice, 80, 10.</li><li>Choose 1 again. Enter Sugar, 45, 8.</li><li>Choose 2 to return to the main menu, then 2 (Print Bill).</li><li>Choose 1 (Add Bill). Enter Rice, 2.</li><li>Choose 1 again. Enter Sugar, 3.</li><li>Choose 2 (Close Session). The total is 295.</li><li>Choose 3 at the main menu to exit.</li></ol></details>
+<p class="hint"><a href="https://github.com/vasanth-kumar-009/Smart-Supermarket-Billing-System">View C++ source on GitHub</a></p>
+</main>
+<script>
+const terminal = document.getElementById('terminal');
+const input = document.getElementById('input');
+const send = document.getElementById('send');
+const status = document.getElementById('status');
+let resolveInput = null;
+function write(text) {
+  terminal.append(document.createTextNode(text));
+  terminal.scrollTop = terminal.scrollHeight;
+}
+function finish(message) {
+  input.disabled = send.disabled = true;
+  status.textContent = message;
+}
+var Module = {
+  write,
+  readLine() {
+    status.textContent = 'Waiting for your input';
+    input.disabled = send.disabled = false;
+    input.placeholder = 'Type your answer and press Enter';
+    input.focus();
+    return new Promise(resolve => { resolveInput = resolve; });
+  },
+  print(text) { write(text + '\n'); },
+  printErr(text) { write('[Runtime] ' + text + '\n'); },
+  onAbort(reason) { finish('Program stopped — use Restart demo'); write('\n' + reason + '\n'); },
+  onExit(code) { finish(code === 0 ? 'Program finished — use Restart demo' : 'Program exited with an error'); },
+  setStatus(text) { if (text && !resolveInput) status.textContent = text; }
+};
+document.getElementById('input-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (!resolveInput || !input.value.trim()) return;
+  const line = input.value;
+  const resolve = resolveInput;
+  resolveInput = null;
+  write(line + '\n');
+  input.value = '';
+  input.disabled = send.disabled = true;
+  status.textContent = 'Running C++…';
+  resolve(line);
+});
+document.getElementById('clear').addEventListener('click', () => { terminal.textContent = ''; });
+document.getElementById('restart').addEventListener('click', () => location.reload());
+</script>
+<script src="supermarket.js" onerror="finish('Build files missing — compile the C++ demo first')"></script>
 </body>
-
 </html>
